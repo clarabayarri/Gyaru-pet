@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="GyaruTheme" parent="android:style/Theme.Light.NoTitleBar">
+    <item name="android:windowBackground">@color/light_pink</item>
+    <item name="android:textAppearance">@style/MyDefaultTextAppearance</item>
+    <item name="android:textAppearanceMedium">@style/MyMediumTextAppearance</item>
+    <item name="android:windowContentOverlay">@null</item>
+  </style>
+
+  <style name="MyDefaultTextAppearance" parent="@android:style/TextAppearance">
+      <item name="android:textColor">@color/dark_grey</item>
+      <item name="android:textSize">3.5pt</item>
+  </style>
+  <style name="MyMediumTextAppearance" parent="@android:style/TextAppearance.Medium">
+      <item name="android:textColor">@color/dark_grey</item>
+  </style>
+  
+</resources>
