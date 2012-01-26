@@ -17,3 +17,6 @@ local.properties
 
 #drawings
 res/drawable
+
+#sounds
+res/raw
