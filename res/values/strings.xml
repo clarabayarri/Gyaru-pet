@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">Gyaru</string>
+    <string name="app_name">Gyaru pet</string>
+    <string name="about">About</string>
+    <string name="artisticDesigner">Artistic design</string>
+    <string name="conceptualDesigner">Conceptual design</string>
+    <string name="technicalDesigner">Technical development</string>
+    <string name="azuki">Azuki</string>
+    <string name="jpa">JPA</string>
+    <string name="clara">Clara</string>
 
 </resources>

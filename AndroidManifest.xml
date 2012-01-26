@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.amieggs.gyaru.GyaruActivity" android:screenOrientation="portrait" android:theme="@style/GyaruTheme"/>
-        
+        <activity android:name="com.amieggs.gyaru.AboutActivity" android:screenOrientation="portrait" android:theme="@style/GyaruTheme"/>
     </application>
 
 </manifest>

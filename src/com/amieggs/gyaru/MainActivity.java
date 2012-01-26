@@ -25,7 +25,10 @@ public class MainActivity extends Activity {
     		leopardIntent.putExtra("com.amieggs.gyaru.type", "leopard");
     		startActivity(leopardIntent);
     		break;
-    		
+    	case R.id.aboutButton:
+    		Intent aboutIntent = new Intent(this, AboutActivity.class);
+    		startActivity(aboutIntent);
+    		break;
     	}
     }
 }
