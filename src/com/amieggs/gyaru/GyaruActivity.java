@@ -6,23 +6,38 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 
-public class GyaruActivity extends Activity implements OnTouchListener {
+public class GyaruActivity extends Activity implements OnTouchListener, OnCompletionListener {
 
 	private String type;
 	private Map<String,ImageView> items;
+	private Map<String, Integer> hands;
 	private Map<String, Integer> sounds;
 	
 	MediaPlayer mp = null;
 	
 	int windowwidth;
     int windowheight;
+    
+    ImageView hand;
+    
+    Handler handler = new Handler();
+    Runnable hideHand = new Runnable() {
+    	public void run() {
+    		hand.setVisibility(ImageView.GONE);
+    	}
+    };
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,11 +53,14 @@ public class GyaruActivity extends Activity implements OnTouchListener {
 		ImageView mamba = (ImageView)findViewById(R.id.gyaru);
 		mamba.setMaxWidth((int)0.6*windowwidth);
 		
+		hand = (ImageView)findViewById(R.id.handImage);
+		
 		fillItemsMap();
 	}
 	
 	private void fillItemsMap(){
 		items = new HashMap<String,ImageView>();
+		hands = new HashMap<String, Integer>();
 		sounds = new HashMap<String, Integer>();
 		
 		//fill items
@@ -50,6 +68,9 @@ public class GyaruActivity extends Activity implements OnTouchListener {
 		kawaii.setOnTouchListener(this);
 		items.put("kawaii", kawaii);
 			
+		//fill hands
+		hands.put("kawaii", R.drawable.manokawaii);
+		
 		//fill sounds
 		sounds.put("kawaii", R.raw.kawaii);
 		
@@ -106,17 +127,33 @@ public class GyaruActivity extends Activity implements OnTouchListener {
 	}
 	
 	private void performItem(String item){
+		showHand(item);
+		playMedia(item);
+	}
+	
+	private void showHand(String item) {
+		hand.setImageResource(hands.get(item));
+		hand.setVisibility(ImageView.VISIBLE);
+		TranslateAnimation translation = new TranslateAnimation(
+	            Animation.RELATIVE_TO_SELF, 0.7f,Animation.RELATIVE_TO_SELF, 0.0f,
+	            Animation.RELATIVE_TO_SELF, 0.4f,Animation.RELATIVE_TO_SELF, 0.0f
+	        );
+		translation.setInterpolator(new AccelerateDecelerateInterpolator());
+		translation.setDuration(1500);
+		hand.startAnimation(translation);
+		
+		handler.postDelayed(hideHand, 3500);
+	}
+	
+	private void playMedia(String item) {
 		mp = MediaPlayer.create(this, sounds.get(item));
 		mp.start();
-		mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+		mp.setOnCompletionListener(this);
+	}
 
-			@Override
-			public void onCompletion(MediaPlayer mediaplayer) {
-				mp.stop();
-				mp.release();
-				mp = null;
-			}
-			
-		});
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		mp.release();
+		this.mp = null;
 	}
 }
