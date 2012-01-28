@@ -63,24 +63,58 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
 		hands = new HashMap<String, Integer>();
 		sounds = new HashMap<String, Integer>();
 		
-		//fill items
+		fillItems();
+		
+		if("mamba".equals(type)) fillMapsMamba();
+		else fillMapsLeopard();
+	}
+	
+	private void fillItems() {
 		ImageView kawaii = (ImageView)findViewById(R.id.kawaii);
 		kawaii.setOnTouchListener(this);
 		items.put("kawaii", kawaii);
-			
-		//fill hands
+	}
+	
+	private void fillMapsMamba() {
+		fillHandsMamba();
+		fillSoundsMamba();
+	}
+	
+	private void fillHandsMamba() {
 		hands.put("kawaii", R.drawable.manokawaii);
-		
-		//fill sounds
+		hands.put("bikkuri", R.drawable.manobikkuri);
+		hands.put("ikitai", R.drawable.manoikitai);
+		hands.put("kowai", R.drawable.manokowaii);
+		hands.put("oishii", R.drawable.manooishii);
+	}
+	
+	private void fillSoundsMamba() {
 		sounds.put("kawaii", R.raw.kawaii);
-		
-		if("leopard".equals(type)) changeImagesToLeopard();
+	}
+	
+	private void fillMapsLeopard() {
+		changeImagesToLeopard();
+		fillItemsLeopard();
+		fillHandsLeopard();
+		fillSoundsLeopard();
 	}
 	
 	private void changeImagesToLeopard() {
 		ImageView mamba = (ImageView)findViewById(R.id.gyaru);
 		mamba.setImageResource(R.drawable.gyaru1);
 		mamba.setMaxHeight((int)0.6*windowheight);
+	}
+	
+	private void fillItemsLeopard() {
+		
+	}
+	
+	private void fillHandsLeopard() {
+		
+	}
+	
+	private void fillSoundsLeopard() {
+		
 	}
 	
 	@Override
