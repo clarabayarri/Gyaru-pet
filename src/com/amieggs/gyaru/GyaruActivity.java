@@ -127,6 +127,8 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
 		hands.put("ikitai", R.drawable.manoikitai);
 		hands.put("kowai", R.drawable.manokowaii);
 		hands.put("oishii", R.drawable.manooishii);
+		//TODO: posar el que toca
+		hands.put("eeeeh", R.drawable.manokawaii);
 	}
 	
 	private void fillSoundsMamba() {
@@ -168,7 +170,7 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
 	public boolean onTouch(View v, MotionEvent event) {
         switch(event.getAction()) {
         case MotionEvent.ACTION_DOWN:
-        	startMovingView(v);
+        	startMovingView(v, event);
         	break;
         case MotionEvent.ACTION_MOVE:
         	moveMovingImage(event);
@@ -183,28 +185,22 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
             return true;
 	}
 	
-	private void startMovingView(View v){
-		//LayoutParams layoutParams = (LayoutParams) v.getLayoutParams();
+	private void startMovingView(View v, MotionEvent event){
 		v.setVisibility(View.INVISIBLE);
 		String key = getKeyForView(v);
 		movingImage.setImageResource(itemResources.get(key));
-		//movingImage.setLayoutParams(layoutParams);
+		setTouchCoordinatesToMovingImageLayout(event);
 		movingImage.setVisibility(View.VISIBLE);
 	}
 	
 	private void moveMovingImage(MotionEvent event){
+		setTouchCoordinatesToMovingImageLayout(event);
+	}
+	
+	private void setTouchCoordinatesToMovingImageLayout(MotionEvent event){
 		LayoutParams layoutParams = (LayoutParams) movingImage.getLayoutParams();
 		int x_cord = (int)event.getRawX();
     	int y_cord = (int)event.getRawY();
-
-        if(x_cord>windowwidth){
-        	x_cord=windowwidth;
-        }
-        
-        if(y_cord>windowheight){
-        	y_cord=windowheight;
-        }
-
         layoutParams.leftMargin = x_cord - movingImage.getWidth()/2;
         layoutParams.topMargin = y_cord - movingImage.getHeight()/2;
         movingImage.setLayoutParams(layoutParams);
