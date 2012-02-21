@@ -4,15 +4,28 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:id="@+id/topItemBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
 
         <ImageView
             android:id="@+id/kawaii"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
+            android:src="@drawable/stitch" />
+
+        <ImageView
+            android:id="@+id/kowai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stitch" />
+
+        <ImageView
+            android:id="@+id/oishii"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/stitch" />
     </LinearLayout>
 
@@ -39,5 +52,48 @@
         android:maxWidth="300px"
         android:src="@drawable/manokawaii"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/bottomItemBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/ikitai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stitch" />
+
+        <ImageView
+            android:id="@+id/eeeeh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stitch" />
+
+        <ImageView
+            android:id="@+id/bikkuri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stitch" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/movingLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/movingImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stitch"
+            android:visibility="invisible" />
+    </LinearLayout>
 
 </RelativeLayout>

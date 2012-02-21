@@ -22,8 +22,11 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
 
 	private String type;
 	private Map<String,ImageView> items;
+	private Map<String, Integer> itemResources;
 	private Map<String, Integer> hands;
 	private Map<String, Integer> sounds;
+	
+	ImageView movingImage;
 	
 	MediaPlayer mp = null;
 	
@@ -56,12 +59,18 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
 		hand = (ImageView)findViewById(R.id.handImage);
 		
 		fillItemsMap();
+		
+		View topItemBar = findViewById(R.id.topItemBar);
+		topItemBar.bringToFront();
+		
+		movingImage = (ImageView)findViewById(R.id.movingImage);
 	}
 	
 	private void fillItemsMap(){
 		items = new HashMap<String,ImageView>();
 		hands = new HashMap<String, Integer>();
 		sounds = new HashMap<String, Integer>();
+		itemResources = new HashMap<String, Integer>();
 		
 		fillItems();
 		
@@ -73,6 +82,38 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
 		ImageView kawaii = (ImageView)findViewById(R.id.kawaii);
 		kawaii.setOnTouchListener(this);
 		items.put("kawaii", kawaii);
+		//TODO: canviar a la imatge kawaii
+		itemResources.put("kawaii", R.drawable.stitch);
+		
+		ImageView kowai = (ImageView)findViewById(R.id.kowai);
+		kowai.setOnTouchListener(this);
+		items.put("kowai", kowai);
+		//TODO: canviar a la imatge kawaii
+		itemResources.put("kowai", R.drawable.stitch);
+		
+		ImageView oishii = (ImageView)findViewById(R.id.oishii);
+		oishii.setOnTouchListener(this);
+		items.put("oishii", oishii);
+		//TODO: canviar a la imatge kawaii
+		itemResources.put("oishii", R.drawable.stitch);
+		
+		ImageView ikitai = (ImageView)findViewById(R.id.ikitai);
+		ikitai.setOnTouchListener(this);
+		items.put("ikitai", ikitai);
+		//TODO: canviar a la imatge kawaii
+		itemResources.put("ikitai", R.drawable.stitch);
+		
+		ImageView eeeeh = (ImageView)findViewById(R.id.eeeeh);
+		eeeeh.setOnTouchListener(this);
+		items.put("eeeeh", eeeeh);
+		//TODO: canviar a la imatge kawaii
+		itemResources.put("eeeeh", R.drawable.stitch);
+		
+		ImageView bikkuri = (ImageView)findViewById(R.id.bikkuri);
+		bikkuri.setOnTouchListener(this);
+		items.put("bikkuri", bikkuri);
+		//TODO: canviar a la imatge kawaii
+		itemResources.put("bikkuri", R.drawable.stitch);
 	}
 	
 	private void fillMapsMamba() {
@@ -90,6 +131,12 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
 	
 	private void fillSoundsMamba() {
 		sounds.put("kawaii", R.raw.kawaii);
+		//TODO: posar els que toquen
+		sounds.put("kowai", R.raw.kawaii);
+		sounds.put("bikkuri", R.raw.kawaii);
+		sounds.put("ikitai", R.raw.kawaii);
+		sounds.put("oishii", R.raw.kawaii);
+		sounds.put("eeeeh", R.raw.kawaii);
 	}
 	
 	private void fillMapsLeopard() {
@@ -119,30 +166,15 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
 	
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		LayoutParams layoutParams = (LayoutParams) v.getLayoutParams();
         switch(event.getAction()) {
         case MotionEvent.ACTION_DOWN:
+        	startMovingView(v);
         	break;
         case MotionEvent.ACTION_MOVE:
-        	int x_cord = (int)event.getRawX();
-        	int y_cord = (int)event.getRawY();
-
-            if(x_cord>windowwidth){
-            	x_cord=windowwidth;
-            }
-            
-            if(y_cord>windowheight){
-            	y_cord=windowheight;
-            }
-
-            layoutParams.leftMargin = x_cord - v.getWidth()/2;
-            layoutParams.topMargin = y_cord - v.getHeight()/2;
-            v.setLayoutParams(layoutParams);
+        	moveMovingImage(event);
             break;
         case MotionEvent.ACTION_UP:
-        	layoutParams.leftMargin = 0;
-            layoutParams.topMargin = 0;
-            v.setLayoutParams(layoutParams);
+            returnViewToPlace(v);
             itemSelected(v);
         	break;
         default:
@@ -151,13 +183,54 @@ public class GyaruActivity extends Activity implements OnTouchListener, OnComple
             return true;
 	}
 	
+	private void startMovingView(View v){
+		//LayoutParams layoutParams = (LayoutParams) v.getLayoutParams();
+		v.setVisibility(View.INVISIBLE);
+		String key = getKeyForView(v);
+		movingImage.setImageResource(itemResources.get(key));
+		//movingImage.setLayoutParams(layoutParams);
+		movingImage.setVisibility(View.VISIBLE);
+	}
+	
+	private void moveMovingImage(MotionEvent event){
+		LayoutParams layoutParams = (LayoutParams) movingImage.getLayoutParams();
+		int x_cord = (int)event.getRawX();
+    	int y_cord = (int)event.getRawY();
+
+        if(x_cord>windowwidth){
+        	x_cord=windowwidth;
+        }
+        
+        if(y_cord>windowheight){
+        	y_cord=windowheight;
+        }
+
+        layoutParams.leftMargin = x_cord - movingImage.getWidth()/2;
+        layoutParams.topMargin = y_cord - movingImage.getHeight()/2;
+        movingImage.setLayoutParams(layoutParams);
+	}
+	
+	private void returnViewToPlace(View v){
+		LayoutParams layoutParams = (LayoutParams) v.getLayoutParams();
+		layoutParams.leftMargin = 0;
+        layoutParams.topMargin = 0;
+        v.setLayoutParams(layoutParams);
+        movingImage.setVisibility(View.GONE);
+        v.setVisibility(View.VISIBLE);
+	}
+	
 	private void itemSelected(View v){
+		performItem(getKeyForView(v));
+	}
+	
+	private String getKeyForView(View v){
 		Set<String> possibleItems = items.keySet();
 		for(String key : possibleItems){
 			if(v.equals(items.get(key))){
-				performItem(key);
+				return key;
 			}
 		}
+		return null;
 	}
 	
 	private void performItem(String item){
